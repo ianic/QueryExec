@@ -11,14 +11,15 @@ class TableViewController
     remove_all_columns
     add_columns
   end  
-       
-    
+           
   def numberOfRowsInTableView(tableView)    
     NSLog("numberOfRowsInTableView: #{@data.size}")
     @data.size
 	end
 	
 	def tableView(tableView, objectValueForTableColumn:column, row:row)				
+	  return (row + 1) if column.identifier == ""	    
+	  
 		value = @data[row][column.identifier.to_sym]
 		if value.kind_of?(Time) || value.kind_of?(Date)	
 			value.to_s
@@ -42,24 +43,24 @@ class TableViewController
     @table_view.setColumnAutoresizingStyle(NSTableViewNoColumnAutoresizing)
   end
 
-	def add_columns
-		@columns.each do |name|
-			add_column name
-		end
+	def add_columns     
+	  add_column({:name => ""})
+		@columns.each { |column_data| add_column(column_data) }	
 	end
 	
 	#TODO - alignment, width
-	def add_column(name)
-    column = NSTableColumn.new()          
-    column.initWithIdentifier(name)   
-    column.setIdentifier(name)
-    column.headerCell.setStringValue(name)  	
-		@table_view.addTableColumn(column)			
+	def add_column(column_data)
+	  name = column_data[:name]
+    table_column = NSTableColumn.new()          
+    table_column.initWithIdentifier(name)   
+    table_column.setIdentifier(name)
+    table_column.headerCell.setStringValue(name)  	
+		@table_view.addTableColumn(table_column)			
 	end
 	
 	def remove_all_columns
-		@table_view.tableColumns().each do |column|
-			@table_view.removeTableColumn(column)
+		@table_view.tableColumns().each do |table_column|
+			@table_view.removeTableColumn(table_column)
 		end
 	end
 		         
