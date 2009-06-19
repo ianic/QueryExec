@@ -3,6 +3,7 @@ require 'drb'
 require 'date'
 
 require 'lib/mappings'
+require 'lib/table_view_controller'
 
 class Application
 
@@ -23,31 +24,21 @@ class Application
 		DRb.stop_service() 
 		
 		@results.each do |result|
-		  add_results_table(result[:columns], result[:data])						
+		  create_results_table(result)						
 		end
 	rescue => e
 	  NSLog "exec_query error #{e}"
-  end  
+  end       
   
-  def add_results_table(column_names, data)
-    columns = column_names.map{|name| column(:id => name, :title => name)}  
-    data.map do |row| 
-      row.each do |key, value|
-        row[key] = value.to_s if value.kind_of?(Data) || value.kind_of?(Time)          
-      end
-    end
-    add_table(columns, data)
-  end  
-  
-  def add_table(columns, data) 
-     @tables_placeholder << scroll_view(:layout => {:spacing => 0, :margin => 0, :start => false, :expand => [:width, :height]}) do |scroll|
+  def create_results_table(result)
+    @tables_placeholder << scroll_view(:layout => {:spacing => 0, :margin => 0, :start => false, :expand => [:width, :height]}) do |scroll|
       scroll.setAutohidesScrollers(true)
-      scroll << table_view(:columns => columns, :data => data) do |table|
-        table.setUsesAlternatingRowBackgroundColors(true)  
+      scroll << table_view() do |table|        
+        TableViewController.new(result, table)
       end
     end
   end
-      	      
+          	      
   def calc_tables_placeholder_frame
     frame = @tables_scroll_view.frame    
     @tables_placeholder.frame =  [0,0, frame.size.width, frame.size.height] 
@@ -68,7 +59,7 @@ class Application
           vert.will_resize_subviews{ calc_tables_placeholder_frame }
         end          
         win.did_resize { calc_tables_placeholder_frame }     
-        win.on_notification { |notification| NSLog("Received notification of #{notification.name} on win") }                      
+        #win.on_notification { |notification| NSLog("Received notification of #{notification.name} on win") }                      
       end
       calc_tables_placeholder_frame
     end
