@@ -18,6 +18,9 @@ module HotCocoa
         file.item :new, :key => "n"
         file.item :open, :key => "o"
       end
+      main.submenu :query do |query|
+        query.item :execute, :key => "e"
+      end
       main.submenu :window do |win|
         win.item :minimize, :key => "m"
         win.item :zoom
