@@ -12,7 +12,7 @@ class Application
   def draw_query_view
     @query_view = layout_view(:frame => @query_view_frame, :mode => :horizontal, :spacing => 0, :margin => 0, :layout => {:start => false, :expand => [:width]}) do |horiz|      
       horiz << @query_field = text_field(:text => "exec sp_help Users --select top 100 * from Users", :layout => {:expand => [:width, :height], :left_padding => 10, :right_padding => 10, :top_padding => 10 })
-    end
+    end      
   end    
       
     
