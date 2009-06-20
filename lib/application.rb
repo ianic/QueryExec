@@ -91,27 +91,25 @@ class Application
     calc_tables_placeholder_frame
   end                   
                                    
-  def on_show_hide_query(menu)    
-    if @query_view.frame.size.height == 0
-      @query_view.frame = @query_view_frame 
-    else
+  def on_hide_query(menu)    
+    on_show_both(menu)
+    if @query_view.frame.size.height > 0
       @query_view_frame = @query_view.frame
       @query_view.frame = [0,0,0,0]            
     end                          
     calc_tables_placeholder_frame
   end 
                                   
-  def on_show_hide_results(menu)
-    if @results_view.frame.size.height == 0
-      @results_view.frame = @results_view_frame 
-    else
+  def on_hide_results(menu)
+    on_show_both(menu)
+    if @results_view.frame.size.height > 0
       @results_view_frame = @results_view.frame
       @results_view.frame = [0,0,0,0]            
     end 
     calc_tables_placeholder_frame
   end                                             
   
-  def on_show_hide_both(menu)
+  def on_show_both(menu)
     @query_view.frame = @query_view_frame 
     @results_view.frame = @results_view_frame  
     calc_tables_placeholder_frame

@@ -22,9 +22,9 @@ module HotCocoa
         query.item :execute, :key => "e"
       end
       main.submenu :view do |view|
-        view.item :show_hide_query, :key => "1", :title => "Show/Hide Query"
-        view.item :show_hide_results, :key => "2", :title => "Show/Hide Results"
-        view.item :show_hide_both, :key => "3", :title => "Show Both"
+        view.item :hide_query, :key => "1", :title => "Hide Query"
+        view.item :hide_results, :key => "2", :title => "Hide Results"
+        view.item :show_both, :key => "3", :title => "Show Both"
       end
       main.submenu :window do |win|
         win.item :minimize, :key => "m"
